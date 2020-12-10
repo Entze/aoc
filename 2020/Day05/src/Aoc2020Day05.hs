@@ -1,10 +1,14 @@
 module Aoc2020Day05 where
 
-import Safe (lastMay)
+import System.Environment (getArgs)
+import System.Exit
+import Safe (at,headMay,lastMay,minimumMay, maximumMay)
+import Data.Maybe
 
 type BoardingPass = String
 type SeatCoordinates = ((Int, Int), (Int, Int))
 type SeatId = Int
+
 
 parseBoardingPass :: String -> Maybe BoardingPass
 parseBoardingPass n
@@ -33,3 +37,25 @@ seatIdFromBoardingPassString rowOffset rowScale columnOffset columnScale p = do
   coord <- lastMay coords
   id <- seatIdFromSeatCoordinates rowOffset rowScale columnOffset columnScale coord
   return id
+
+aoc2020Day05Main :: IO ()
+aoc2020Day05Main = do
+  args <- getArgs
+  let file = args `at` 0
+  content <- readFile file
+  let res = tasks content
+  case res of
+    Just (max,mySeat) -> (putStrLn . unlines . map show) [max,mySeat]
+    Nothing -> exitFailure
+
+
+tasks :: String -> Maybe (Int, Int)
+tasks content = do
+  let seatIds = (((map fromJust . filter isJust . map (seatIdFromBoardingPassString 0 8 0 1)) contentLines) :: [SeatId])
+  max <- maximumMay seatIds
+  min <- minimumMay seatIds
+  let candidateSeats = [s | s <- [min.. max], (not.(elem s)) seatIds, elem (s-1) seatIds, elem (s+1) seatIds]
+  mySeat <- headMay candidateSeats
+  return (max,mySeat)
+  where
+    contentLines = lines content
