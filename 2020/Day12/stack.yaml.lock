@@ -6,15 +6,15 @@
 packages:
 - completed:
     name: aocCommon
-    version: 1.1.0.0
+    version: 1.2.0.0
     git: https://github.com/Entze/aocCommon.git
     pantry-tree:
       size: 475
-      sha256: 24d64aabe636cbf39f37031910de1365cc36b2a534986577538d78a377ab0f05
-    commit: 65423eaad6910d32299b32a5f777fe7264bb461b
+      sha256: 8b24370ab242c54fa80d97848ac87f86956c85afe51bc2c67d5ad699f74d6a0a
+    commit: 6d2fea5731c38e1f4f0302cec256cef85d4e5f5d
   original:
     git: https://github.com/Entze/aocCommon.git
-    commit: 65423eaad6910d32299b32a5f777fe7264bb461b
+    commit: 6d2fea5731c38e1f4f0302cec256cef85d4e5f5d
 snapshots:
 - completed:
     size: 533252
