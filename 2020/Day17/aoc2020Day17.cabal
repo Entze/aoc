@@ -1,0 +1,54 @@
+name:                 aoc2020Day17
+version:              1.0.0.0
+synopsis:             A program to solve AOC 2020 Day 17
+description:          A simple self contained Haskell program solving AOC 2020 Day 17.
+                      The program takes a path as argument and calculates the solution.
+                      The second to last line contains solution for problem 1 and the last
+                      line contains the solution for problem 2.
+license:              BSD3
+license-file:         LICENSE
+category:             Advent of Code
+author:               Lukas Grassauer
+build-type:           Simple
+maintainer:           lukas@grassauer.eu
+copyright:            2020 Lukas Grassauer
+cabal-version:        >=1.10
+
+library
+  default-language:   Haskell2010
+  hs-source-dirs:     src
+  exposed-modules:    Aoc2020Day17
+  build-depends:      base >= 4.7 && < 5,
+                      safe >= 0.3 && < 0.4,
+--                      either >= 5 && < 6,
+--                      mtl >= 2 && < 3,
+--                      containers >= 0.6 && < 1,
+                      array >= 0.4 && < 1,
+                      text >= 1 && < 2,
+                      aocCommon >= 3 && < 4
+
+executable aoc2020Day17
+  main-is:            Main.hs
+  default-language:   Haskell2010
+  build-depends:      base >= 4.7 && < 5,
+                      aoc2020Day17
+
+test-suite aoc2020Day17Spec
+  type:               exitcode-stdio-1.0
+  ghc-options:        -Wall
+  main-is:            Aoc2020Day17Spec.hs
+  hs-source-dirs:     test
+  build-depends:      base >= 4.7 && < 5,
+                      hspec >= 2.7 && <3,
+                      hspec-core >= 2.7 && <3,
+                      hspec-leancheck >= 0.0.4 && < 1,
+                      hspec-smallcheck >= 0.5 && < 1,
+                      QuickCheck >= 2.13 && <3,
+                      leancheck >= 0.9 && <1,
+                      smallcheck >= 1.1 && <2,
+                      safe >= 0.3 && < 1,
+--                      containers >= 0.6 && < 1,
+--                      either >= 5.0 && < 6,
+                      array >= 0.4 && < 1,
+                      aoc2020Day17
+  default-language:   Haskell2010
