@@ -6,6 +6,7 @@ import Data.Array
 import Data.List
 import Data.Maybe
 import qualified Data.Text as Text
+import Data.Tuple.Extra
 
 import AocCommon
 
@@ -38,16 +39,10 @@ instanceFromText t
     fromChar _ = False
 
 solve1 :: ProblemInstance -> ELM Solution1
-solve1 p
-  | isNothing p'' = throwErrorStringELM "Could not find a solution."
-  | otherwise = (return . activeCells . fromJust) p''
-  where
-    dim = dimension p
-    p'' = (headMay . (take 7)) p'
-    p' = iterate' progressDimension dim
+solve1 = (return . nrOfActiveCells . (progressDimensionN 6) . dimension)
 
 solve2 :: ProblemInstance -> ELM Solution2
-solve2 = undefined
+solve2 _ = return 0
 
 instanceToText :: ProblemInstance -> Text.Text
 instanceToText p
@@ -74,6 +69,9 @@ solution2ToText = (Text.pack . show)
 
 type Coordinates = (Int, Int, Int)
 type PocketDimension = Array Coordinates Bool
+
+type HyperCoordinates = (Int, Int, Int, Int)
+type HyperDimension = Array Coordinates Bool
 
 origin :: Coordinates
 origin = (0,0,0)
@@ -113,9 +111,9 @@ numberOfActiveNeighbours c dims = (length . filter id) neighbours
 progressDimension :: PocketDimension -> PocketDimension
 progressDimension dim = (array (bounds dim') . (map progress) . assocs) dim'
   where
-    dim' = enlargeDimensionBy dim 1
+    dim' = enlargeDimensionBy dim 2
     progress :: (Coordinates, Bool) -> (Coordinates, Bool)
-    progress (c,a) = (c, ans == 3 || (ans == 2 && a))
+    progress (c,a) = (c, ans == 3 || (a && ans == 2))
       where
         ans :: Int
         ans = numberOfActiveNeighbours c dim'
@@ -130,6 +128,20 @@ enlargeDimensionBy dim n = array ((xMin - n, yMin - n, zMin - n), (xMax + n, yMa
            z <- [(zMin - n)..(zMax + n)], (x < xMin || y < yMin || z < zMin) || (x > xMax || y > yMax || z > zMax)]
 
 
+activeCells :: PocketDimension -> [Coordinates]
+activeCells = map fst . filter snd . assocs
 
-activeCells :: PocketDimension -> Int
-activeCells = length . filter id .  elems
+nrOfActiveCells :: PocketDimension -> Int
+nrOfActiveCells = length . filter id .  elems
+
+
+describeSamePocketDimension :: PocketDimension -> PocketDimension -> Bool
+describeSamePocketDimension a b = a == b || activeAs == activeBs
+  where
+    activeAs = activeCells a
+    activeBs = activeCells b
+
+progressDimensionN :: Int -> PocketDimension -> PocketDimension
+progressDimensionN n p
+  | n <= 0 = p
+  | otherwise = (progressDimensionN (n-1) . progressDimension) p
