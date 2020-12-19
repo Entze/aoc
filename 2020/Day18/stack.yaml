@@ -42,7 +42,9 @@ packages:
 #
 extra-deps:
  - git: https://github.com/Entze/aocCommon.git
-   commit: 74c8a64db9458f3a8c6f509c211ffd6ba733d628
+   commit: 86f606d6eb7ce549b58cae432f47f70efeef74fa
+ - QuickCheck-2.14@sha256:3f536a4b86bef7ec39025f04ef8d76c5ac5a78ba0b42e660b25d0a8f9c811045,7004
+
 
 # Override default flag values for local packages and extra-deps
 # flags: {}
